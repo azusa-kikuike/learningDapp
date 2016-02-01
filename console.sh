@@ -1,0 +1,1 @@
+geth --datadir="/tmp/blockchain" --logfile="/tmp/blockchain.log" --port 30304 --rpc --rpcport 8102 --rpcaddr localhost --networkid 43380 --rpccorsdomain "*" --mine --minerthreads "1" --genesis="config/genesis/dev_genesis.json" --rpcapi "eth,web3" --maxpeers 4 --natspec console

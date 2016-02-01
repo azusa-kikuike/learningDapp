@@ -18,7 +18,6 @@ MochaWeb.testOnly(function(){
             });
         });
 
-/*
 				it("can send transaction", function(done) { 
 						this.timeout(timeout);
 						var primary		= web3.eth.accounts[0];
@@ -55,7 +54,6 @@ MochaWeb.testOnly(function(){
 							}
 						});
 				});
-*/
 
     });
 
