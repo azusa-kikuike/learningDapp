@@ -64,7 +64,7 @@ MochaWeb.testOnly(function(){
                       console.log(web3.fromWei(web3.eth.getBalance(primary),   "ether").toNumber(10));
                       console.log(web3.fromWei(web3.eth.getBalance(secondary), "ether").toNumber(10));
                       done();
-                      var expected = balance.plus(web3.toWei('0.5', 'ether')).toNumber(10);
+                      var expected = secondaryBalance.plus(web3.toWei('0.5', 'ether')).toNumber(10);
 
                       chai.assert.equal(expected, web3.eth.getBalance(secondary).toNumber(10), "the result = balance + 0.5 eth");
                     }
