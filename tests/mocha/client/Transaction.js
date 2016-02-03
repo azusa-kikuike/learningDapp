@@ -17,19 +17,36 @@ MochaWeb.testOnly(function(){
                 done();
             });
         });
+    });
+
+    describe("transaction", function(){
+        var primary   = web3.eth.accounts[0];
+        var secondary = web3.eth.accounts[1];
+        var primaryBalance, secondaryBalance = 0;
+
+        beforeEach(function(done) {
+            primaryBalance    = web3.eth.getBalance(primary);
+            secondaryBalance  = web3.eth.getBalance(secondary);
+            done();
+        });
+
+        it("the balance is valid", function(done) { 
+            this.timeout(timeout);
+            done();
+
+            console.log(web3.fromWei(primaryBalance,   "ether").toNumber(10));
+            console.log(web3.fromWei(secondaryBalance, "ether").toNumber(10));
+            chai.assert.isNumber(primaryBalance.toNumber(10));
+            chai.assert.isNumber(secondaryBalance.toNumber(10));
+        });
 
         it("can send transaction", function(done) { 
             this.timeout(timeout);
-            var primary    = web3.eth.accounts[0];
-            var secondary = web3.eth.accounts[1];
 
-            console.log(web3.fromWei(web3.eth.getBalance(primary),   "ether").toNumber(10));
-            console.log(web3.fromWei(web3.eth.getBalance(secondary), "ether").toNumber(10));
-            var balance = web3.eth.getBalance(secondary);
-
-            // TODO SKIP THE TEST
-            if (web3.eth.getBalance(primary).minus(web3.toWei('5', 'ether')) > 0) {
-
+            if (primaryBalance.minus(web3.toWei('5', 'ether')) < 0) {
+              console.log("SKIP THE TEST");
+              done();
+            } else {
               var txObj = {
                 from: primary,
                 to:    secondary,
@@ -47,7 +64,6 @@ MochaWeb.testOnly(function(){
                       console.log(web3.fromWei(web3.eth.getBalance(primary),   "ether").toNumber(10));
                       console.log(web3.fromWei(web3.eth.getBalance(secondary), "ether").toNumber(10));
                       done();
-
                       var expected = balance.plus(web3.toWei('0.5', 'ether')).toNumber(10);
 
                       chai.assert.equal(expected, web3.eth.getBalance(secondary).toNumber(10), "the result = balance + 0.5 eth");
@@ -58,12 +74,7 @@ MochaWeb.testOnly(function(){
                   done();
                 }
               });
-            } else {
-              console.log("SKIP THE TEST");
-              done();
             }
         });
-
     });
-
 });
