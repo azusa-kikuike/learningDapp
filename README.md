@@ -2,21 +2,20 @@
 
 ## How to use
 
-`./console.sh`
+1. start geth blockchain
 
-## Before running tests
-
-Confirm the number of the accounts using 
 ```
-> eth.accounts
+./geth.sh
 ```
 
-If the number is less than 2, please create account:
+2. create / unlock account
+
 ```
-> personal.newAccount("passphrase")
+./console.sh
 ```
 
-And then, unlock the primary account
+3. start Meteor
+
 ```
-> personal.unlockAccount(address, "password")
+meteor
 ```
