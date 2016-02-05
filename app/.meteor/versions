@@ -79,6 +79,8 @@ sanjo:long-running-child-process@1.1.5
 sanjo:meteor-files-helpers@1.1.0_7
 sanjo:meteor-version@1.0.0
 session@1.1.1
+silentcicero:solc@0.2.5
+silentcicero:solc-compiler@0.2.1
 spacebars@1.0.7
 spacebars-compiler@1.0.7
 standard-minifiers@1.0.2

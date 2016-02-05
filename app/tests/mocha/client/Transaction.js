@@ -19,7 +19,7 @@ MochaWeb.testOnly(function(){
         });
     });
 
-    describe("transaction", function(){
+    describe.skip("transaction", function(){
         var primary   = web3.eth.accounts[0];
         var secondary = web3.eth.accounts[1];
         var primaryBalance, secondaryBalance = 0;
@@ -53,6 +53,7 @@ MochaWeb.testOnly(function(){
                 value: web3.toWei('0.5', 'ether')
               };
 
+/*
               web3.eth.sendTransaction(txObj, function(err, res){
                 if (!err) {
                   var timer;
@@ -74,6 +75,7 @@ MochaWeb.testOnly(function(){
                   done();
                 }
               });
+*/
             }
         });
     });
