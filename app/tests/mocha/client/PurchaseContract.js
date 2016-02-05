@@ -1,5 +1,5 @@
 // test timeout
-var timeout = 50000;
+var timeout = 100000;
 
 MochaWeb.testOnly(function(){    
     var contractInstance,
@@ -14,36 +14,50 @@ MochaWeb.testOnly(function(){
 				it("should deploy a new PurchaseContract", function(done){
 						this.timeout(timeout);
 
-						var purchaceContractReturned = PurchaseContract.new(transactionObject, function(err, contract){
+						PurchaseContract.new(transactionObject, function(err, contract){
+              chai.assert.isNull(err);
 							if (!err) {
 								if (!contract.address) {
 									console.log("txHash: " + contract.transactionHash);
 								} else {
 									console.log("address: " + contract.address);
+									contractInstance = contract;
 									done();
 								}
 							}
 						});
 				});
+
+				var txObject = {
+					value: 20,
+					gas: 300000,
+					from: web3.eth.accounts[0]
+				};
+				it("should purchase", function(done) {
+					this.timeout(timeout);
+					contractInstance.Purchase(null, txObject, function(err, result) {
+						if (!err) {
+              var timer;
+              clearInterval(timer);
+              timer = setInterval(function(){ 
+                var receipt = web3.eth.getTransactionReceipt(result);
+                if (receipt) {
+                  clearInterval(timer); 
+									chai.assert.equal(contractInstance.seller(), web3.eth.accounts[0], "seller == sender");
+									chai.assert.equal(contractInstance.value().toNumber(10), 10, "value == sendValue / 2");
+									console.log(contractInstance.seller());
+									console.log(contractInstance.value().toNumber(10));
+									done();
+                }
+              }, 1000);
+						} 
+					});
+				});
+
 		});
 
 
 /*
-    describe("web3 connectivity", function(){
-        it("should connect to web3", function(done){
-            web3.setProvider(new web3.providers.HttpProvider("http://localhost:8102"));
-            done();
-        });
-
-        it("should provide valid gas price", function(done){
-            web3.eth.getGasPrice(function(err, result){
-                chai.assert.isNull(err, null);
-                chai.assert.property(result, 'toNumber');
-                chai.assert.isNumber(result.toNumber(10));
-                done();
-            });
-        });
-    });
 
     // Construct Multiply Contract Object and contract instance
     var contractInstance,

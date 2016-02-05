@@ -32,12 +32,12 @@ MochaWeb.testOnly(function(){
 
         it("the balance is valid", function(done) { 
             this.timeout(timeout);
-            done();
 
             console.log(web3.fromWei(primaryBalance,   "ether").toNumber(10));
             console.log(web3.fromWei(secondaryBalance, "ether").toNumber(10));
             chai.assert.isNumber(primaryBalance.toNumber(10));
             chai.assert.isNumber(secondaryBalance.toNumber(10));
+            done();
         });
 
         it("can send transaction", function(done) { 
@@ -53,7 +53,6 @@ MochaWeb.testOnly(function(){
                 value: web3.toWei('0.5', 'ether')
               };
 
-/*
               web3.eth.sendTransaction(txObj, function(err, res){
                 if (!err) {
                   var timer;
@@ -75,7 +74,6 @@ MochaWeb.testOnly(function(){
                   done();
                 }
               });
-*/
             }
         });
     });
