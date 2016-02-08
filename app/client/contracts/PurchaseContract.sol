@@ -34,6 +34,7 @@ contract PurchaseContract
     event aborted();
     event purchaseConfirmed();
     event itemReceived();
+    event refunded();
 
     /// Abort the purchase and reclaim the ether.
     /// Can only be called by the seller before
@@ -69,5 +70,15 @@ contract PurchaseContract
         seller.send(this.balance);
         state = State.Inactive;
     }
+    function refundBuyer()
+        onlySeller
+        inState(State.Locked)
+    {
+        buyer.send(2 * value);
+        seller.send(this.balance);
+        state = State.Inactive;
+        refunded();
+    }
+
     function() { throw; }
 }
