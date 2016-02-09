@@ -3,12 +3,86 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+<header class="dapp-header">
+  <nav>
+      <ul>
+          <li>
+              <a href="#" class="active">
+                  <i class="icon-arrow-down3"></i>
+                  <span>Tab1</span>
+              </a>
+              <a href="#">
+                  <i class="icon-arrow-up2"></i>
+                  <span>Send</span>
+              </a>
+          </li>
+      </ul>
+  </nav>
+</header>
 
-  {{> hello}}
+<div class="dapp-flex-content">
+
+    <!-- aside -->
+    <aside class="dapp-aside">
+      <ul class="dapp-account-list">
+          <!-- Clickable accounts use <button> -->
+          <li>
+              <button>
+                  <a class="dapp-identicon dapp-small" style="background-image: url(identiconimage.png)"></a>
+                  <h3>My clickable account</h3>
+                  <span>0x343c98e2b6e49bc0fed722c2a269f3814ddd1533</span>
+              </button>         
+          </li>
+          <li>
+              <button class="selected">
+                  <a class="dapp-identicon dapp-small" style="background-image: url(identiconimage.png)"></a>
+                  <h3>My clickable selected account</h3>
+                  <span>0x343c98e2b6e49bc0fed722c2a269f3814ddd1533</span>
+                  <figure class="icon-check"></figure>
+              </button>         
+          </li>
+          <!-- Unclickable accounts -->
+          <li>
+              <a class="dapp-identicon dapp-small" style="background-image: url(identiconimage.png)"></a>
+              <h3>My unclickable account</h3>
+              <span>0x343c98e2b6e49bc0fed722c2a269f3814ddd1533</span>
+          </li>
+          <li class="selected">
+              <a class="dapp-identicon dapp-small" style="background-image: url(identiconimage.png)"></a>
+              <h3>My unclickable selected account</h3>
+              <span>0x343c98e2b6e49bc0fed722c2a269f3814ddd1533</span>
+              <figure class="icon-check"></figure>
+          </li>
+      </ul>
+
+    </aside>
+
+    <!-- content-->
+    <main class="dapp-content">
+      {{> purchase}}
+
+    </main>
+
+    <!-- actionbar -->
+    <aside class="dapp-actionbar">
+
+    </aside>
+
+</div>
+
+<!-- footer -->
+<footer class="dapp-footer">
+
+</footer>
+
 </body>
 
 <template name="hello">
   <button>Click Me</button>
   <p>You've pressed the button {{counter}} times.</p>
+</template>
+
+<template name="purchase">
+  <button>出品する</button>
+  <p>出品ボタンを {{counter}} times動かしたよ!</p>
 </template>
