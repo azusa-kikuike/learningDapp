@@ -1,4 +1,3 @@
-
 contracts = {};
 collectionObservers = [];
 
@@ -12,5 +11,6 @@ connectToNode = function() {
   }
 
   observeLatestBlocks();
+  observeTransactions();
 
 }
