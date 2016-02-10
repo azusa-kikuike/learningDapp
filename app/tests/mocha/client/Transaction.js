@@ -1,7 +1,7 @@
 // test timeout
 var timeout = 50000;
 
-MochaWeb.testOnly(function(){    
+MochaWeb.testOnly(function(){
     describe("web3 connectivity", function(){
         it("should connect to web3", function(done){
             web3.setProvider(new web3.providers.HttpProvider("http://localhost:8102"));
@@ -30,7 +30,7 @@ MochaWeb.testOnly(function(){
             done();
         });
 
-        it("the balance is valid", function(done) { 
+        it("the balance is valid", function(done) {
             this.timeout(timeout);
 
             console.log(web3.fromWei(primaryBalance,   "ether").toNumber(10));
@@ -40,7 +40,7 @@ MochaWeb.testOnly(function(){
             done();
         });
 
-        it("can send transaction", function(done) { 
+        it("can send transaction", function(done) {
             this.timeout(timeout);
 
             if (primaryBalance.minus(web3.toWei('5', 'ether')) < 0) {
@@ -57,10 +57,10 @@ MochaWeb.testOnly(function(){
                 if (!err) {
                   var timer;
                   clearInterval(timer);
-                  timer = setInterval(function(){ 
+                  timer = setInterval(function(){
                     var receipt = web3.eth.getTransactionReceipt(res);
                     if (receipt) {
-                      clearInterval(timer) 
+                      clearInterval(timer);
                       console.log(web3.fromWei(web3.eth.getBalance(primary),   "ether").toNumber(10));
                       console.log(web3.fromWei(web3.eth.getBalance(secondary), "ether").toNumber(10));
                       done();
