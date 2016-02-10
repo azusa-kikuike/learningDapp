@@ -15,7 +15,6 @@ observeLatestBlocks = function() {
 
   web3.eth.filter('latest').watch(function(e, res){
     if (!e) {
-      console.log('Here comes blocks!');
       updateBalances();
     }
   });

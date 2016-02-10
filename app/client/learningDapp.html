@@ -53,8 +53,10 @@
 </template>
 
 <template name="purchase">
-  <button>出品する</button>
-  <p>出品ボタンを {{counter}} times動かしたよ!</p>
+  <button class="create-contract">コントラクト</button>
+	<p>{{contractTxHash}}</p>
+	<p>{{contractAddress}}</p>
+  <button class="purchase">出品する</button>
 </template>
 
 <template name="wallets">
