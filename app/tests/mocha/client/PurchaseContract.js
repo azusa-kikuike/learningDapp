@@ -10,7 +10,7 @@ MochaWeb.testOnly(function(){
             from: web3.eth.accounts[0]
         };
 
-    describe("PurchaseContract Unit test", function(){
+    describe.skip("PurchaseContract Unit test", function(){
         it("should deploy a new PurchaseContract", function(done){
             this.timeout(timeout);
 

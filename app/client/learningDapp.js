@@ -27,6 +27,18 @@ if (Meteor.isClient) {
     }
   });
 
+	Template.wallets.helpers({
+		accounts: function() {
+			var accounts = EthAccounts.find({name: {$exists: true}}, {sort: {name: 1}}).fetch();
+			accounts.sort(Helpers.sortByBalance);
+			console.log(accounts);
+
+			return accounts;
+		},
+	});
+
+
+
 }
 
 if (Meteor.isServer) {

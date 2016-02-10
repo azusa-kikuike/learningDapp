@@ -24,37 +24,7 @@
 
     <!-- aside -->
     <aside class="dapp-aside">
-      <ul class="dapp-account-list">
-          <!-- Clickable accounts use <button> -->
-          <li>
-              <button>
-                  <a class="dapp-identicon dapp-small" style="background-image: url(identiconimage.png)"></a>
-                  <h3>My clickable account</h3>
-                  <span>0x343c98e2b6e49bc0fed722c2a269f3814ddd1533</span>
-              </button>         
-          </li>
-          <li>
-              <button class="selected">
-                  <a class="dapp-identicon dapp-small" style="background-image: url(identiconimage.png)"></a>
-                  <h3>My clickable selected account</h3>
-                  <span>0x343c98e2b6e49bc0fed722c2a269f3814ddd1533</span>
-                  <figure class="icon-check"></figure>
-              </button>         
-          </li>
-          <!-- Unclickable accounts -->
-          <li>
-              <a class="dapp-identicon dapp-small" style="background-image: url(identiconimage.png)"></a>
-              <h3>My unclickable account</h3>
-              <span>0x343c98e2b6e49bc0fed722c2a269f3814ddd1533</span>
-          </li>
-          <li class="selected">
-              <a class="dapp-identicon dapp-small" style="background-image: url(identiconimage.png)"></a>
-              <h3>My unclickable selected account</h3>
-              <span>0x343c98e2b6e49bc0fed722c2a269f3814ddd1533</span>
-              <figure class="icon-check"></figure>
-          </li>
-      </ul>
-
+			{{> wallets}}
     </aside>
 
     <!-- content-->
@@ -85,4 +55,20 @@
 <template name="purchase">
   <button>出品する</button>
   <p>出品ボタンを {{counter}} times動かしたよ!</p>
+</template>
+
+<template name="wallets">
+  <ul class="dapp-account-list">
+      <!-- Clickable accounts use <button> -->
+			{{#each accounts}}
+      <li>
+          <button class="selected">
+              <a class="dapp-identicon dapp-small" style="background-image: url(identiconimage.png)"></a>
+              <h3>{{name}}</h3>
+              <span>{{address}}</span>
+              <figure class="icon-check"></figure>
+          </button>
+      </li>
+			{{/each}}
+  </ul>
 </template>
