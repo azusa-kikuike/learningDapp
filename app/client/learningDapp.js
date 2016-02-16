@@ -3,6 +3,7 @@ if (Meteor.isClient) {
   Session.setDefault('counter', 0);
 	Session.setDefault('contractTxHash', "contractTxHash");
 	Session.setDefault('contractAddress', "contractAddress");
+	Session.setDefault('contractValue', 0);
 	Session.setDefault('currentTxHash', "");
 
   Template.hello.helpers({
@@ -27,6 +28,22 @@ if (Meteor.isClient) {
 		},
 		contractAddress: function() {
 			return Session.get('contractAddress');
+		},
+		contractValue: function() {
+			return Session.get('contractValue');
+		},
+		contractState: function() {
+			if (Session.get("contractAddress") != "contractAddress") {
+				var contractInstance = PurchaseContract.at(Session.get("contractAddress"));
+				console.log("State");
+				console.log(contractInstance.state());
+				return contractInstance.state();
+			} else {
+				return "Inactive";
+			}
+		},
+		transactions: function() {
+			return Transactions.find({});
 		}
   });
 
@@ -42,7 +59,14 @@ if (Meteor.isClient) {
 			};
 
 			PurchaseContract.new(transactionObject, function(err, contract) {
+				console.log(err);
 				if (!err) {
+					var txId = Helpers.makeId('tx', contract.transactionHash);
+					Transactions.upsert(txId, { $set: {
+						transactionHash: contract.transactionHash,
+						address: contract.address
+					} });
+
 					if (!contract.address) {
 						console.log("txHash: " + contract.transactionHash);
 						Session.set('contractTxHash', contract.transactionHash);
@@ -52,6 +76,7 @@ if (Meteor.isClient) {
 					}
 				}
 			});
+
     },
 		'click .purchase': function() {
 			var txObject = {
@@ -63,9 +88,16 @@ if (Meteor.isClient) {
 			contractInstance.Purchase(null, txObject, function(err, result){
 				if (!err) {
 					console.log("tx submitted!" + result);
+					var txId = Helpers.makeId('tx', result);
+					Transactions.upsert(txId, { $set: {
+						transactionHash: result
+					} });
 				}
 			});
 		},
+		'click .clear' : function() {
+			return Transactions.remove({});
+		}
   });
 
 	Template.wallets.helpers({

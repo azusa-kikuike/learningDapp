@@ -1,3 +1,4 @@
+/*
 var peerCountIntervalId = null;
 
 var getPeerCount = function() {
@@ -7,7 +8,7 @@ var getPeerCount = function() {
 };
 
 updateBalances = function() {
-
+//console.log("updateBalances..");
 };
 
 observeLatestBlocks = function() {
@@ -28,3 +29,4 @@ observeLatestBlocks = function() {
   }, 1000);
 
 }
+*/

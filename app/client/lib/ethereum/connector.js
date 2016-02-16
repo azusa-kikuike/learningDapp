@@ -10,7 +10,9 @@ connectToNode = function() {
     console.log("Go checkForOriginalWallet");
   }
 
+/*
   observeLatestBlocks();
+*/
   observeTransactions();
 
 }
