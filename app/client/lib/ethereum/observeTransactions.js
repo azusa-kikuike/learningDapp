@@ -3,20 +3,14 @@ observeTransactions = function() {
 	var checkTransactionConfirmations = function(tx) {
 		if (!tx.confirmed) {
 			var filter = web3.eth.filter("latest").watch(function(e, blockHash) {
-				console.log("watching...");
-				console.log(tx._id);
-
 				web3.eth.getTransaction(tx.transactionHash, function(e, transaction) {
 					web3.eth.getTransactionReceipt(tx.transactionHash, function(e, receipt) {
 						if (e || !receipt || !transaction) return;
 
 					var txId = Helpers.makeId('tx', tx.transactionHash);
 						if (receipt) {
-							console.log("receipt");
-							console.log(receipt);
-							console.log(transaction);
-
-							updateValue(Session.get("contractAddress"));
+							var contractInstance = PurchaseContract.at(Session.get("contractAddress"));
+							Session.set('contractValue', contractInstance.value().toNumber(10));
 							filter.stopWatching();
 						}
 
@@ -24,22 +18,19 @@ observeTransactions = function() {
 				});
 
 			});
-		} else {
-			console.log("confirmed");
+
+			if (Session.get("contractAddress") != "") {
+				var contractInstance = PurchaseContract.at(Session.get("contractAddress"));
+				var events = contractInstance.allEvents();
+				events.watch(function(error, event) {
+					if (!error) {
+						Session.set("contractState", event.event);
+					}
+				});
+
+			}
 		}
 	};
-
-	var updateValue = function(address) {
-    if (address != 'contractAddress') {
-      console.log("updateValue");
-      var contractInstance = PurchaseContract.at(address);
-      Session.set('contractValue', contractInstance.value().toNumber(10));
-      Session.set('contractState', contractInstance.state().toNumber(10));
-      console.log(contractInstance.value());
-      console.log(contractInstance.seller());
-    }
-	}
-
 
 	collectionObservers[collectionObservers.length] = Transactions.find({}).observe({
 		added: function(newDocument) {
@@ -56,34 +47,3 @@ observeTransactions = function() {
 	});
 
 }
-
-
-/*
-observeTransactions = function() {
-	console.log("observeTransactions");
-
-	var checkTransactionConfirmations = function(tx) {
-		console.log(tx);
-		if (!tx.confirmed) {
-			var filter = web3.eth.filter('latest');
-			filter.watch(function(e, blockHash){
-				console.log("watching..");
-				console.log(tx._id);
-			});
-		}
-	};
-
-	collectionObservers[collectionObservers.length] = Transactions.find({}).observe({
-		added: function(newDocument) {
-			console.log("added");
-		},
-		changed: function(newDocument) {
-			console.log("changed");
-		},
-		removed: function(document) {
-			console.log("removed");
-		}
-	});
-
-}
-*/

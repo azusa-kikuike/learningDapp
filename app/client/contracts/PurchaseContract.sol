@@ -11,6 +11,7 @@ contract PurchaseContract
         value = msg.value / 2;
         if (2 * value != msg.value) throw;
         state = State.Created;
+				created();
     }
     modifier require(bool _condition)
     {
@@ -32,6 +33,7 @@ contract PurchaseContract
         if (state != _state) throw;
         _
     }
+		event created();
     event aborted();
     event purchaseConfirmed();
     event itemReceived();

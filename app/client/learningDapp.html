@@ -50,15 +50,14 @@
 <template name="purchase">
   <button class="clear">クリア</button>
   <button class="create-contract">コントラクト</button>
-	<p>{{contractTxHash}}</p>
-	<p>{{contractAddress}}</p>
-  <p>{{contractValue}}</p>
-  <p>{{contractState}}</p>
+	<p>contractTxHash: {{contractTxHash}}</p>
+	<p>contractAddress: {{contractAddress}}</p>
+  <p>contractValue: {{contractValue}}</p>
+  <p>contractState: {{contractState}}</p>
   <button class="purchase">出品する</button>
   <ul>
   {{#each transactions}}
     <li>txHash: {{transactionHash}}</li>
-    <li>address: {{address}}</li>
   {{/each}}
   </ul>
 </template>
