@@ -55,6 +55,11 @@
   <p>contractValue: {{contractValue}}</p>
   <p>contractState: {{contractState}}</p>
   <button class="purchase">出品する</button>
+	<button class="abort">取り下げる</button>
+	<button class="confirmPurchase">購入する</button>
+	<button class="confirmReceived">商品を受け取る</button>
+	<button class="refundBuyer">返品する</button>
+	<h2>トランザクション履歴</h2>
   <ul>
   {{#each transactions}}
     <li>txHash: {{transactionHash}}</li>

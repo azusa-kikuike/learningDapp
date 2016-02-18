@@ -7,3 +7,4 @@ for (i = 0; i < 2; i++) {
 
 // unlock the first account
 personal.unlockAccount(eth.accounts[0]);
+personal.unlockAccount(eth.accounts[1]);

@@ -46,9 +46,9 @@ contract PurchaseContract
         onlySeller
         inState(State.Created)
     {
-        aborted();
         seller.send(this.balance);
         state = State.Inactive;
+        aborted();
     }
     /// Confirm the purchase as buyer.
     /// Transaction has to include `2 * value` ether.
@@ -58,9 +58,9 @@ contract PurchaseContract
         inState(State.Created)
         require(msg.value == 2 * value)
     {
-        purchaseConfirmed();
         buyer = msg.sender;
         state = State.Locked;
+        purchaseConfirmed();
     }
     /// Confirm that you (the buyer) received the item.
     /// This will release the locked ether.
@@ -68,10 +68,10 @@ contract PurchaseContract
         onlyBuyer
         inState(State.Locked)
     {
-        itemReceived();
         buyer.send(value); // We ignore the return value on purpose
         seller.send(this.balance);
         state = State.Inactive;
+        itemReceived();
     }
     function refundBuyer()
         onlySeller
@@ -81,6 +81,9 @@ contract PurchaseContract
         seller.send(this.balance);
         state = State.Inactive;
         refunded();
+    }
+    function getBalance() returns (uint balance) {
+        return this.balance;
     }
 
     function() { throw; }

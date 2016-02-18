@@ -53,6 +53,7 @@ Template.purchase.events({
 
   },
 	'click .purchase': function() {
+		console.log("出品ボタンを押したよ!");
 		var txObject = {
 			value: 20,
 			gas: 300000,
@@ -69,6 +70,78 @@ Template.purchase.events({
 			}
 		});
 	},
+  'click .abort' : function() {
+		console.log("取り下げボタンを押したよ!");
+		var txObject = {
+			value: 0,
+			gas: 300000,
+			from: web3.eth.accounts[0]
+		};
+		var contractInstance = PurchaseContract.at(Session.get("contractAddress"));
+		contractInstance.abort(null, txObject, function(err, result){
+			if (!err) {
+				console.log("tx submitted!" + result);
+				var txId = Helpers.makeId('tx', result);
+				Transactions.upsert(txId, { $set: {
+					transactionHash: result
+				} });
+			}
+		});
+  },
+  'click .confirmPurchase' : function() {
+		console.log("購入ボタンを押したよ!");
+		var txObject = {
+			value: 20,
+			gas: 300000,
+			from: web3.eth.accounts[1]
+		};
+		var contractInstance = PurchaseContract.at(Session.get("contractAddress"));
+		contractInstance.confirmPurchase(null, txObject, function(err, result){
+			if (!err) {
+				console.log("tx submitted!" + result);
+				var txId = Helpers.makeId('tx', result);
+				Transactions.upsert(txId, { $set: {
+					transactionHash: result
+				} });
+			}
+		});
+  },
+  'click .confirmReceived' : function() {
+		console.log("受け取りボタンを押したよ!");
+		var txObject = {
+			value: 0,
+			gas: 300000,
+			from: web3.eth.accounts[1]
+		};
+		var contractInstance = PurchaseContract.at(Session.get("contractAddress"));
+		contractInstance.confirmReceived(null, txObject, function(err, result){
+			if (!err) {
+				console.log("tx submitted!" + result);
+				var txId = Helpers.makeId('tx', result);
+				Transactions.upsert(txId, { $set: {
+					transactionHash: result
+				} });
+			}
+		});
+  },
+  'click .refundBuyer' : function() {
+		console.log("返品ボタンを押したよ!");
+		var txObject = {
+			value: 0,
+			gas: 300000,
+			from: web3.eth.accounts[0]
+		};
+		var contractInstance = PurchaseContract.at(Session.get("contractAddress"));
+		contractInstance.refundBuyer(null, txObject, function(err, result){
+			if (!err) {
+				console.log("tx submitted!" + result);
+				var txId = Helpers.makeId('tx', result);
+				Transactions.upsert(txId, { $set: {
+					transactionHash: result
+				} });
+			}
+		});
+  },
 	'click .clear' : function() {
 		Session.set('contractTxHash', "");
 		Session.set('contractAddress', "");

@@ -10,7 +10,7 @@ observeTransactions = function() {
 					var txId = Helpers.makeId('tx', tx.transactionHash);
 						if (receipt) {
 							var contractInstance = PurchaseContract.at(Session.get("contractAddress"));
-							Session.set('contractValue', contractInstance.value().toNumber(10));
+							Session.set('contractValue', contractInstance.getBalance.call().toNumber(10));
 							filter.stopWatching();
 						}
 
