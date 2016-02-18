@@ -10,6 +10,7 @@ contract PurchaseContract
         seller = msg.sender;
         value = msg.value / 2;
         if (2 * value != msg.value) throw;
+        state = State.Created;
     }
     modifier require(bool _condition)
     {

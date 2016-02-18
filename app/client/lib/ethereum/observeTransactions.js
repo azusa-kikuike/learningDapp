@@ -14,13 +14,9 @@ observeTransactions = function() {
 						if (receipt) {
 							console.log("receipt");
 							console.log(receipt);
-							console.log(receipt.contractAddress);
-							Transactions.upsert(txId, { $set: {
-								transactionHash: tx.transactionHash,
-								address: receipt.contractAddress
-							} });
+							console.log(transaction);
 
-							updateValue(receipt.contractAddress);
+							updateValue(Session.get("contractAddress"));
 							filter.stopWatching();
 						}
 
@@ -34,9 +30,14 @@ observeTransactions = function() {
 	};
 
 	var updateValue = function(address) {
-		console.log("updateValue");
-		var contractInstance = PurchaseContract.at(address);
-		Session.setDefault('contractValue', contractInstance.value().toNumber(10));
+    if (address != 'contractAddress') {
+      console.log("updateValue");
+      var contractInstance = PurchaseContract.at(address);
+      Session.set('contractValue', contractInstance.value().toNumber(10));
+      Session.set('contractState', contractInstance.state().toNumber(10));
+      console.log(contractInstance.value());
+      console.log(contractInstance.seller());
+    }
 	}
 
 

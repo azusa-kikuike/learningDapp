@@ -1,28 +1,11 @@
 if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
 	Session.setDefault('contractTxHash', "contractTxHash");
 	Session.setDefault('contractAddress', "contractAddress");
 	Session.setDefault('contractValue', 0);
+	Session.setDefault('contractState', 0);
 	Session.setDefault('currentTxHash', "");
 
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
-  });
-
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
-  });
-
   Template.purchase.helpers({
-    counter: function() {
-      return Session.get('counter');
-    },
 		contractTxHash: function() {
 			return Session.get('contractTxHash');
 		},
@@ -33,14 +16,7 @@ if (Meteor.isClient) {
 			return Session.get('contractValue');
 		},
 		contractState: function() {
-			if (Session.get("contractAddress") != "contractAddress") {
-				var contractInstance = PurchaseContract.at(Session.get("contractAddress"));
-				console.log("State");
-				console.log(contractInstance.state());
-				return contractInstance.state();
-			} else {
-				return "Inactive";
-			}
+			return Session.get('contractState');
 		},
 		transactions: function() {
 			return Transactions.find({});
