@@ -13,7 +13,7 @@
               </a>
               <a href="#">
                   <i class="icon-arrow-up2"></i>
-                  <span>Send</span>
+                  <span>Tab2</span>
               </a>
           </li>
       </ul>
@@ -52,13 +52,19 @@
   <button class="create-contract">コントラクト</button>
 	<p>contractTxHash: {{contractTxHash}}</p>
 	<p>contractAddress: {{contractAddress}}</p>
-  <p>contractValue: {{contractValue}}</p>
-  <p>contractState: {{contractState}}</p>
+  <p>Balance: {{contractBalance}}</p>
+  <p>State: {{contractState}}</p>
+  <p>currentEvent: {{currentEvent}}</p>
+
+	{{#if equals contractState 0}}
   <button class="purchase">出品する</button>
 	<button class="abort">取り下げる</button>
 	<button class="confirmPurchase">購入する</button>
+	{{/if}}
+	{{# if equals contractState 1}}
 	<button class="confirmReceived">商品を受け取る</button>
 	<button class="refundBuyer">返品する</button>
+	{{/if}}
 	<h2>トランザクション履歴</h2>
   <ul>
   {{#each transactions}}
@@ -69,15 +75,12 @@
 
 <template name="wallets">
   <ul class="dapp-account-list">
-      <!-- Clickable accounts use <button> -->
 			{{#each accounts}}
       <li>
-          <button class="selected">
-              <a class="dapp-identicon dapp-small" style="background-image: url(identiconimage.png)"></a>
-              <h3>{{name}}</h3>
-              <span>{{address}}</span>
-              <figure class="icon-check"></figure>
-          </button>
+          <a class="dapp-identicon dapp-small" style="background-image: url(identiconimage.png)"></a>
+          <h3>{{name}}</h3>
+          <span>{{address}}</span>
+          <figure class="icon-check"></figure>
       </li>
 			{{/each}}
   </ul>

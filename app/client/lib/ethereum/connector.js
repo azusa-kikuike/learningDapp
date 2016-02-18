@@ -9,10 +9,6 @@ connectToNode = function() {
   if (EthAccounts.find().count() > 0) {
     console.log("Go checkForOriginalWallet");
   }
-
-/*
-  observeLatestBlocks();
-*/
   observeTransactions();
 
 }

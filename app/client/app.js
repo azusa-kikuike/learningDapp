@@ -1,8 +1,8 @@
 Session.setDefault('contractTxHash', "");
 Session.setDefault('contractAddress', "");
-Session.setDefault('contractValue', 0);
-Session.setDefault('contractState', 0);
-Session.setDefault('currentTxHash', "");
+Session.setDefault('contractBalance', 0);
+Session.setDefault('contractState', 2);
+Session.setDefault('currentEvent', "");
 
 Template.purchase.helpers({
 	contractTxHash: function() {
@@ -11,20 +11,26 @@ Template.purchase.helpers({
 	contractAddress: function() {
 		return Session.get('contractAddress');
 	},
-	contractValue: function() {
-		return Session.get('contractValue');
+	contractBalance: function() {
+		return Session.get('contractBalance');
 	},
 	contractState: function() {
 		return Session.get('contractState');
+	},
+	currentEvent: function() {
+		return Session.get('currentEvent');
 	},
 	transactions: function() {
 		return Transactions.find({});
 	}
 });
 
+Template.registerHelper('equals', function (a, b) {
+  return a === b;
+});
+
 Template.purchase.events({
   'click .create-contract': function () {
-		console.log("コントラクトボタンを押したよ!");
 
 		var transactionObject = {
 			data: PurchaseContract.bytecode,
@@ -42,10 +48,8 @@ Template.purchase.events({
 				} });
 
 				if (!contract.address) {
-					console.log("txHash: " + contract.transactionHash);
 					Session.set('contractTxHash', contract.transactionHash);
 				} else {
-					console.log("address: " + contract.address);
 					Session.set('contractAddress', contract.address);
 				}
 			}
@@ -53,7 +57,6 @@ Template.purchase.events({
 
   },
 	'click .purchase': function() {
-		console.log("出品ボタンを押したよ!");
 		var txObject = {
 			value: 20,
 			gas: 300000,
@@ -62,7 +65,6 @@ Template.purchase.events({
 		var contractInstance = PurchaseContract.at(Session.get("contractAddress"));
 		contractInstance.Purchase(null, txObject, function(err, result){
 			if (!err) {
-				console.log("tx submitted!" + result);
 				var txId = Helpers.makeId('tx', result);
 				Transactions.upsert(txId, { $set: {
 					transactionHash: result
@@ -71,7 +73,6 @@ Template.purchase.events({
 		});
 	},
   'click .abort' : function() {
-		console.log("取り下げボタンを押したよ!");
 		var txObject = {
 			value: 0,
 			gas: 300000,
@@ -80,7 +81,6 @@ Template.purchase.events({
 		var contractInstance = PurchaseContract.at(Session.get("contractAddress"));
 		contractInstance.abort(null, txObject, function(err, result){
 			if (!err) {
-				console.log("tx submitted!" + result);
 				var txId = Helpers.makeId('tx', result);
 				Transactions.upsert(txId, { $set: {
 					transactionHash: result
@@ -89,7 +89,6 @@ Template.purchase.events({
 		});
   },
   'click .confirmPurchase' : function() {
-		console.log("購入ボタンを押したよ!");
 		var txObject = {
 			value: 20,
 			gas: 300000,
@@ -98,7 +97,6 @@ Template.purchase.events({
 		var contractInstance = PurchaseContract.at(Session.get("contractAddress"));
 		contractInstance.confirmPurchase(null, txObject, function(err, result){
 			if (!err) {
-				console.log("tx submitted!" + result);
 				var txId = Helpers.makeId('tx', result);
 				Transactions.upsert(txId, { $set: {
 					transactionHash: result
@@ -107,7 +105,6 @@ Template.purchase.events({
 		});
   },
   'click .confirmReceived' : function() {
-		console.log("受け取りボタンを押したよ!");
 		var txObject = {
 			value: 0,
 			gas: 300000,
@@ -116,7 +113,6 @@ Template.purchase.events({
 		var contractInstance = PurchaseContract.at(Session.get("contractAddress"));
 		contractInstance.confirmReceived(null, txObject, function(err, result){
 			if (!err) {
-				console.log("tx submitted!" + result);
 				var txId = Helpers.makeId('tx', result);
 				Transactions.upsert(txId, { $set: {
 					transactionHash: result
@@ -125,7 +121,6 @@ Template.purchase.events({
 		});
   },
   'click .refundBuyer' : function() {
-		console.log("返品ボタンを押したよ!");
 		var txObject = {
 			value: 0,
 			gas: 300000,
@@ -134,7 +129,6 @@ Template.purchase.events({
 		var contractInstance = PurchaseContract.at(Session.get("contractAddress"));
 		contractInstance.refundBuyer(null, txObject, function(err, result){
 			if (!err) {
-				console.log("tx submitted!" + result);
 				var txId = Helpers.makeId('tx', result);
 				Transactions.upsert(txId, { $set: {
 					transactionHash: result
@@ -147,7 +141,6 @@ Template.purchase.events({
 		Session.set('contractAddress', "");
 		Session.set('contractValue', 0);
 		Session.set('contractState', 0);
-		Session.set('currentTxHash', "");
 		return Transactions.remove({});
 	}
 });
