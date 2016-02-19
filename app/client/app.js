@@ -1,7 +1,7 @@
 Session.setDefault('contractTxHash', "");
 Session.setDefault('contractAddress', "");
 Session.setDefault('contractBalance', 0);
-Session.setDefault('contractState', 2);
+Session.setDefault('contractState', 0);
 Session.setDefault('currentEvent', "");
 
 Template.purchase.helpers({
@@ -52,7 +52,9 @@ Template.purchase.events({
 				} else {
 					Session.set('contractAddress', contract.address);
 				}
-			}
+			} else {
+        console.log(err);
+      }
 		});
 
   },

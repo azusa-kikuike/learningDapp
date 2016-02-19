@@ -3,7 +3,7 @@ contract PurchaseContract
     uint public value;
     address public seller;
     address public buyer;
-    enum State { Created, Locked, Inactive }
+    enum State { Inactive, Created, Locked }
     State public state;
     function Purchase()
     {
